@@ -1,14 +1,14 @@
 import os
 import csv
 import datetime
-import string
 
 from django.http import HttpResponse
 from django.views import generic
 from django.conf import settings
 from datetime import datetime as dt
 
-from .models import Car, Brand, Fuel, Body, Kind, Purpose, Model, Record, Operation, Department
+from .models import Car, Brand, Fuel, Body, Kind, Purpose, Model, Record, \
+    Operation, Department
 
 
 class IndexView(generic.ListView):
@@ -41,7 +41,7 @@ class BrandsView(generic.ListView):
         try:
             kind = int(kind)
         except:
-            kind=4
+            kind = 4
         context["current_kind_id"] = kind
         context["alphabet"] = list("abcdefghijklmnopqrstuvwxyz")
         context["kind_list"] = Kind.objects.all().order_by('name')
@@ -54,7 +54,9 @@ class BrandsView(generic.ListView):
             kind = int(kind)
         except:
             kind = 4
-        return Brand.objects.filter(name__istartswith=letter, model__car__kind_id=kind).distinct().order_by('name')
+        return Brand.objects.filter(name__istartswith=letter,
+                                    model__car__kind_id=kind).distinct().order_by(
+            'name')
 
 
 class BrandsDetailView(generic.DetailView):
@@ -90,7 +92,8 @@ class ModelsDetailView(generic.ListView):
         except:
             kind = 4
         return Car.objects.filter(
-            model=Model.objects.get(pk=self.kwargs['pk']), kind_id=kind).distinct().order_by(
+            model=Model.objects.get(pk=self.kwargs['pk']),
+            kind_id=kind).distinct().order_by(
             'make_year')
 
     def get_context_data(self, **kwargs):
@@ -186,76 +189,78 @@ def load_data(request):
                     q = Car.objects.filter(license_plate=n_reg_new)
                     if not q:
                         car_obj = Car.objects.create(license_plate=n_reg_new,
-                                           model=model_obj,
-                                           vin=vin,
-                                           make_year=datetime.datetime(
-                                               int(make_year), 1, 1),
-                                           color=color,
-                                           kind=kind_obj,
-                                           body=body_obj,
-                                           purpose=purpose_obj,
-                                           fuel=fuel_obj,
-                                           capacity=capacity,
-                                           own_weight=own_weight,
-                                           total_weight=total_weight
-                                           )
+                                                     model=model_obj,
+                                                     vin=vin,
+                                                     make_year=datetime.datetime(
+                                                         int(make_year), 1, 1),
+                                                     color=color,
+                                                     kind=kind_obj,
+                                                     body=body_obj,
+                                                     purpose=purpose_obj,
+                                                     fuel=fuel_obj,
+                                                     capacity=capacity,
+                                                     own_weight=own_weight,
+                                                     total_weight=total_weight
+                                                     )
                     else:
                         car_obj = q[0]
                 q = Department.objects.filter(dep_code=dep_code)
                 if not q:
-                    department_obj = Department.objects.create(dep_code=dep_code,dep=dep)
+                    department_obj = Department.objects.create(
+                        dep_code=dep_code, dep=dep)
                 else:
                     department_obj = q[0]
 
                 q = Operation.objects.filter(code=oper_code)
                 if not q:
-                    operation_obj = Operation.objects.create(code=oper_code,name=oper_name)
+                    operation_obj = Operation.objects.create(code=oper_code,
+                                                             name=oper_name)
                 else:
                     operation_obj = q[0]
 
                 q = Record.objects.filter(person=person,
-                                        reg_addr_koatuu = reg_addr_koatuu,
-                                        operation = operation_obj,
-                                        d_reg = dt.strptime(d_reg, "%d.%m.%Y"),
-                                        department=department_obj,
-                                        brand=brand_obj,
-                                        model=model_obj,
-                                        vin=vin,
-                                        make_year=datetime.datetime(
-                                           int(make_year), 1, 1),
-                                        color=color,
-                                        kind=kind_obj,
-                                        body=body_obj,
-                                        purpose=purpose_obj,
-                                        fuel=fuel_obj,
-                                        capacity=capacity,
-                                        own_weight=own_weight,
-                                        total_weight=total_weight,
-                                        n_reg_new=n_reg_new,
-                                        car=car_obj)
+                                          reg_addr_koatuu=reg_addr_koatuu,
+                                          operation=operation_obj,
+                                          d_reg=dt.strptime(d_reg, "%d.%m.%Y"),
+                                          department=department_obj,
+                                          brand=brand_obj,
+                                          model=model_obj,
+                                          vin=vin,
+                                          make_year=datetime.datetime(
+                                              int(make_year), 1, 1),
+                                          color=color,
+                                          kind=kind_obj,
+                                          body=body_obj,
+                                          purpose=purpose_obj,
+                                          fuel=fuel_obj,
+                                          capacity=capacity,
+                                          own_weight=own_weight,
+                                          total_weight=total_weight,
+                                          n_reg_new=n_reg_new,
+                                          car=car_obj)
                 if not q:
                     Record.objects.create(
-                                        person=person,
-                                        reg_addr_koatuu = reg_addr_koatuu,
-                                        operation = operation_obj,
-                                        d_reg = dt.strptime(d_reg, "%d.%m.%Y"),
-                                        department=department_obj,
-                                        brand=brand_obj,
-                                        model=model_obj,
-                                        vin=vin,
-                                        make_year=datetime.datetime(
-                                           int(make_year), 1, 1),
-                                        color=color,
-                                        kind=kind_obj,
-                                        body=body_obj,
-                                        purpose=purpose_obj,
-                                        fuel=fuel_obj,
-                                        capacity=capacity,
-                                        own_weight=own_weight,
-                                        total_weight=total_weight,
-                                        n_reg_new=n_reg_new,
-                                        car=car_obj
-                                       )
+                        person=person,
+                        reg_addr_koatuu=reg_addr_koatuu,
+                        operation=operation_obj,
+                        d_reg=dt.strptime(d_reg, "%d.%m.%Y"),
+                        department=department_obj,
+                        brand=brand_obj,
+                        model=model_obj,
+                        vin=vin,
+                        make_year=datetime.datetime(
+                            int(make_year), 1, 1),
+                        color=color,
+                        kind=kind_obj,
+                        body=body_obj,
+                        purpose=purpose_obj,
+                        fuel=fuel_obj,
+                        capacity=capacity,
+                        own_weight=own_weight,
+                        total_weight=total_weight,
+                        n_reg_new=n_reg_new,
+                        car=car_obj
+                    )
 
                 line_count += 1
         print(f'Processed {line_count} lines.')

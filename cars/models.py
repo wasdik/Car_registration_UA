@@ -82,12 +82,14 @@ class Department(models.Model):
 class Record(models.Model):
     person = models.CharField(max_length=1, blank=True)
     reg_addr_koatuu = models.CharField(max_length=8, blank=True)
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, null=True)
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE,
+                                  null=True)
     d_reg = models.DateField()
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE,
+                                   null=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
     model = models.ForeignKey(Model, on_delete=models.CASCADE, null=True)
-    vin = vin = models.CharField(max_length=17, default="", blank=True)
+    vin = models.CharField(max_length=17, default="", blank=True)
     make_year = models.DateField('Make year', null=True)
     color = models.CharField(max_length=100, null=True)
     kind = models.ForeignKey(Kind, on_delete=models.CASCADE, null=True)
