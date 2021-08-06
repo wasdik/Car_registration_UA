@@ -1,0 +1,45 @@
+{% extends "cars/base.html" %}
+
+{% block title %}{{ car }}{% endblock %}
+
+{% block content %}
+    <div class="card-deck-wrapper">
+    <div class="card-deck">
+        <div class="card mx-auto" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ car }}</h5>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item">VIN: {{ car.vin }}</li>
+                        <li class="list-group-item">license
+                            plate: {{ car.license_plate }}</li>
+                        <li class="list-group-item">model: {{ car.model }}</li>
+                        <li class="list-group-item">make
+                            year: {{ car.make_year.year }}</li>
+                        <li class="list-group-item">color: {{ car.color }}</li>
+                        <li class="list-group-item">kind: {{ car.kind }}</li>
+                        <li class="list-group-item">body: {{ car.body }}</li>
+                        <li class="list-group-item">
+                            purpose: {{ car.purpose }}</li>
+                        <li class="list-group-item">fuel: {{ car.fuel }}</li>
+                        <li class="list-group-item">
+                            capacity: {{ car.capacity }}</li>
+                        <li class="list-group-item">own
+                            weight: {{ car.own_weight }}</li>
+                        <li class="list-group-item">total
+                            weight: {{ car.total_weight }}</li>
+                    </ul>
+                </p>
+                <p><a href="{{ search_url }}{{ car.model }}+{{ car.make_year.year }}+{{ car.body }}" target="_blank" class="btn btn-primary" >Найти в
+                        GOOGLE</a></p>
+                <p><a href="{{ search_url }}{{ car.model }}+{{ car.make_year.year }}+{{ car.body }}&tbm=isch" target="_blank" class="btn btn-primary" >Картинки в GOOGLE</a><p>
+            </div>
+        </div>
+        <div class="card mx-auto" style="width: 18rem;">
+             <div class="card-body">
+                <h5 class="card-title">Records</h5>
+             </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

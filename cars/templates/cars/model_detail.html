@@ -1,0 +1,24 @@
+{% extends "cars/base.html" %}
+
+{% block title %}{{ car_model }}{% endblock %}
+
+{% block content %}
+    {% if car_list %}
+        <div class="card-deck">
+            <div class="card mx-auto" style="width: 40rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ car_model }}</h5>
+                    <p class="card-text">
+                        <ul class="list-group">
+                            {% for car in car_list %}
+                                <li class="list-group-item"><a href="{% url 'detail' car.id %}">{{ car }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No cars are available.</p>
+    {% endif %}
+{% endblock %}

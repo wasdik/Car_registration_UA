@@ -1,0 +1,25 @@
+{% extends "cars/base.html" %}
+
+{% block title %}Records{% endblock %}
+
+{% block content %}
+    {% if record_list %}
+        <div class="card-deck">
+            <div class="card mx-auto" style="width: 50rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Records</h5>
+                    <p class="card-text">
+                        <ul class="list-group">
+                            {% for record in record_list %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'record_detail' record.id %}">{{ record }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No brands are available.</p>
+    {% endif %}
+{% endblock %}

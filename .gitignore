@@ -1,0 +1,17 @@
+/tz_opendata_z01012021_po01052021.csv
+/tz_opendata_z01012021_po01072021.csv
+/tz_opendata_z01012021_po01082021.csv
+/tz_opendata_z01012020_po01012021.csv
+/tz_opendata_z01012019_po01012020.csv
+/tz_opendata_z01012018_po01012019.csv
+/tz_opendata_z01012017_po31122017.csv
+/tz_opendata_z01012016_po31122016.csv
+/tz_opendata_z01012015_po31122015.csv
+/tz_opendata_z01012014_po31122014.csv
+/tz_opendata_z01012013_po31122013.csv
+/db.sqlite3
+/.idea
+/db.sqlite3-journal
+/identifier.sqlite
+/venv/
+/cars/migrations/

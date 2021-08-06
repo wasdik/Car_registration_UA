@@ -1,0 +1,49 @@
+{% extends "cars/base.html" %}
+
+{% block title %}Brands{% endblock %}
+
+{% block tabs %}
+    {% if kind_list %}
+        <ul class="nav nav-tabs">
+        {% for kind in kind_list %}
+            <li class="nav-item">
+                <a class="nav-link {% if kind.id == current_kind_id %}active{% endif %}" aria-current="page"
+                   href="{% url 'brands_list' %}?kind={{ kind.id }}&letter={{ current_letter }}">{{ kind.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+        <div class="card-deck">
+            <div class="card mx-auto" style="width: 50rem;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        {% for letter in alphabet %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if letter == current_letter %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ letter|upper }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Brands</h5>
+                    <p class="card-text">
+                        {% if brand_list %}
+                            <ul class="list-group">
+                                {% for brand in brand_list %}
+                                    <li class="list-group-item">
+                                        <a href="{% url 'brand_detail' brand.id %}?kind={{ current_kind_id }}&letter={{ current_letter }}">{{ brand.name }}
+                                            ({{ brand.model_set.count }})</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No brands are available.</p>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+{% endblock %}

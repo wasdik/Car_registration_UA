@@ -1,0 +1,43 @@
+{% extends "cars/base.html" %}
+
+{% block title %}{{ record }}{% endblock %}
+
+{% block content %}
+    <div class="card-deck">
+        <div class="card mx-auto" style="width: 36rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ record }}</h5>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item">person: {{ record.person }}</li>
+                        <li class="list-group-item">reg_addr_koatuu: {{ record.reg_addr_koatuu }}</li>
+                        <li class="list-group-item">operation: {{ record.operation }}</li>
+                        <li class="list-group-item">d_reg: {{ record.d_reg }}</li>
+                        <li class="list-group-item">department: {{ record.department }}</li>
+                        <li class="list-group-item">VIN: {{ record.vin }}</li>
+                        <li class="list-group-item">license
+                            plate: {{ record.car.license_plate }}</li>
+                        <li class="list-group-item">model: {{ record.model }}</li>
+                        <li class="list-group-item">make
+                            year: {{ record.make_year.year }}</li>
+                        <li class="list-group-item">color: {{ record.color }}</li>
+                        <li class="list-group-item">kind: {{ record.kind }}</li>
+                        <li class="list-group-item">body: {{ record.body }}</li>
+                        <li class="list-group-item">
+                            purpose: {{ record.purpose }}</li>
+                        <li class="list-group-item">fuel: {{ record.fuel }}</li>
+                        <li class="list-group-item">
+                            capacity: {{ record.capacity }}</li>
+                        <li class="list-group-item">own
+                            weight: {{ record.own_weight }}</li>
+                        <li class="list-group-item">total
+                            weight: {{ record.total_weight }}</li>
+                    </ul>
+                </p>
+                <p><a href="{{ search_url }}{{ record.model }}+{{ record.make_year.year }}+{{ record.body }}" target="_blank" class="btn btn-primary" >Найти в
+                        GOOGLE</a></p>
+                <p><a href="{{ search_url }}{{ record.model }}+{{ record.make_year.year }}+{{ record.body }}&tbm=isch" target="_blank" class="btn btn-primary" >Картинки в GOOGLE</a><p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

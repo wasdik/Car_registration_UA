@@ -1,0 +1,30 @@
+{% extends "cars/brands.html" %}
+
+{% block title %}{{ brand }}{% endblock %}
+
+{% block tabs %}
+    {{  block.super }}
+{% endblock %}
+
+{% block content %}
+    {% if model_list %}
+        <div class="card-deck">
+            <div class="card mx-auto" style="width: 18rem;">
+                 <div class="card-body">
+                    <h5 class="card-title">{{ brand }}</h5>
+                    <p class="card-text">
+                        <ul class="list-group">
+                            {% for model in model_list %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'model_detail' model.id %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ model.name }}
+                                        ({{ model.car_set.count }})</a></li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                 </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No models are available.</p>
+    {% endif %}
+{% endblock %}
