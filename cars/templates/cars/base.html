@@ -21,8 +21,8 @@
                     </a>
 
                     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                        <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'brands_list' %}">Brands</a>
-                        <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'records_list' %}">Records</a>
+                        <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'brands_list' %}">Brands ({{ total_brands_count }})</a>
+                        <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'records_list' %}">Records ({{ total_records_count }})</a>
                     </nav>
                 </div>
             </header>

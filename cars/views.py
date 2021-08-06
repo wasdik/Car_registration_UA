@@ -32,7 +32,6 @@ class DetailView(generic.DetailView):
 class BrandsView(generic.ListView):
     template_name = 'cars/brands.html'
     context_object_name = 'brand_list'
-    # paginate_by = 30
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,7 +53,7 @@ class BrandsView(generic.ListView):
         try:
             kind = int(kind)
         except:
-            kind = 0
+            kind = 4
         return Brand.objects.filter(name__istartswith=letter, model__car__kind_id=kind).distinct().order_by('name')
 
 
@@ -64,15 +63,15 @@ class BrandsDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['model_list'] = Model.objects.filter(
-            brand=self.object).order_by('name')
-        letter = self.request.GET.get('letter') or 'a'
-        context["current_letter"] = letter
         kind = self.request.GET.get('kind') or ''
         try:
             kind = int(kind)
         except:
             kind = ''
+        context['model_list'] = Model.objects.filter(
+            brand=self.object, car__kind_id=kind).distinct().order_by('name')
+        letter = self.request.GET.get('letter') or 'a'
+        context["current_letter"] = letter
         context["current_kind_id"] = kind
         context["alphabet"] = list("abcdefghijklmnopqrstuvwxyz")
         context["kind_list"] = Kind.objects.all().order_by('name')
@@ -85,8 +84,13 @@ class ModelsDetailView(generic.ListView):
     paginate_by = 30
 
     def get_queryset(self, **kwargs):
+        kind = self.request.GET.get('kind') or ''
+        try:
+            kind = int(kind)
+        except:
+            kind = 4
         return Car.objects.filter(
-            model=Model.objects.get(pk=self.kwargs['pk'])).order_by(
+            model=Model.objects.get(pk=self.kwargs['pk']), kind_id=kind).distinct().order_by(
             'make_year')
 
     def get_context_data(self, **kwargs):
@@ -107,7 +111,6 @@ class RecordsView(generic.ListView):
 class RecordsDetailView(generic.DetailView):
     model = Record
     template_name = 'cars/record_detail.html'
-
 
 
 def load_data(request):
