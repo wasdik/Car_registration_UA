@@ -5,6 +5,10 @@
 {% block tabs %}
     {% if kind_list %}
         <ul class="nav nav-tabs">
+         <li class="nav-item">
+                <a class="nav-link {% if current_kind_id == '' %}active{% endif %}" aria-current="page"
+                   href="{% url 'brands_list' %}?letter={{ current_letter }}">ALL</a>
+         </li>
         {% for kind in kind_list %}
             <li class="nav-item">
                 <a class="nav-link {% if kind.id == current_kind_id %}active{% endif %}" aria-current="page"
@@ -18,12 +22,16 @@
 {% block content %}
 
         <div class="card-deck">
-            <div class="card mx-auto" style="width: 50rem;">
+            <div class="card mx-auto mt-3" style="width: 50rem;">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         {% for letter in alphabet %}
                         <li class="nav-item">
-                            <a class="nav-link {% if letter == current_letter %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ letter|upper }}</a>
+                            {% if letter == 'all' %}
+                                <a class="nav-link {% if current_letter == '' %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}">{{ letter|upper }}</a>
+                            {% else %}
+                                <a class="nav-link {% if letter == current_letter %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ letter|upper }}</a>
+                            {% endif %}
                         </li>
                         {% endfor %}
                     </ul>

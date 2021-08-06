@@ -35,28 +35,33 @@ class BrandsView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        letter = self.request.GET.get('letter') or 'a'
-        context["current_letter"] = letter
-        kind = self.request.GET.get('kind') or 4
-        try:
-            kind = int(kind)
-        except:
-            kind = 4
-        context["current_kind_id"] = kind
-        context["alphabet"] = list("abcdefghijklmnopqrstuvwxyz")
+        letter = self.request.GET.get('letter')
+        context['current_letter'] = letter if letter else ''
+        kind = self.request.GET.get('kind')
+        context["current_kind_id"] = int(kind) if kind else ''
+        list_alphabet = list("abcdefghijklmnopqrstuvwxyz")
+        list_alphabet.append('all')
+        context["alphabet"] = list_alphabet
         context["kind_list"] = Kind.objects.all().order_by('name')
         return context
 
     def get_queryset(self):
-        letter = self.request.GET.get('letter') or 'a'
+        letter = self.request.GET.get('letter')
         kind = self.request.GET.get('kind') or ''
         try:
             kind = int(kind)
         except:
-            kind = 4
-        return Brand.objects.filter(name__istartswith=letter,
-                                    model__car__kind_id=kind).distinct().order_by(
-            'name')
+            pass
+        if letter and kind:
+            return Brand.objects.filter(name__istartswith=letter,
+                                        model__car__kind_id=kind).distinct().order_by(
+                'name')
+        elif kind:
+            return Brand.objects.filter(model__car__kind_id=kind).distinct().order_by('name')
+        elif letter:
+            return Brand.objects.filter(name__istartswith=letter).distinct().order_by('name')
+        else:
+            return Brand.objects.all().order_by('name')
 
 
 class BrandsDetailView(generic.DetailView):
