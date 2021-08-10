@@ -6,13 +6,23 @@
     {% if kind_list %}
         <ul class="nav nav-tabs">
          <li class="nav-item">
+            {% if current_letter == '' %}
+                <a class="nav-link {% if current_kind_id == '' %}active{% endif %}" aria-current="page"
+                   href="{% url 'brands_list' %}">ALL</a>
+            {% else %}
                 <a class="nav-link {% if current_kind_id == '' %}active{% endif %}" aria-current="page"
                    href="{% url 'brands_list' %}?letter={{ current_letter }}">ALL</a>
+            {% endif %}
          </li>
         {% for kind in kind_list %}
             <li class="nav-item">
-                <a class="nav-link {% if kind.id == current_kind_id %}active{% endif %}" aria-current="page"
-                   href="{% url 'brands_list' %}?kind={{ kind.id }}&letter={{ current_letter }}">{{ kind.name }}</a>
+                {% if current_letter == '' %}
+                    <a class="nav-link {% if kind.id == current_kind_id %}active{% endif %}" aria-current="page"
+                       href="{% url 'brands_list' %}?kind={{ kind.id }}">{{ kind.name }}</a>
+                {% else %}
+                    <a class="nav-link {% if kind.id == current_kind_id %}active{% endif %}" aria-current="page"
+                       href="{% url 'brands_list' %}?kind={{ kind.id }}&letter={{ current_letter }}">{{ kind.name }}</a>
+                {% endif %}
             </li>
         {% endfor %}
         </ul>
@@ -27,7 +37,11 @@
                     <ul class="nav nav-tabs card-header-tabs">
                         {% for letter in alphabet %}
                         <li class="nav-item">
-                            {% if letter == 'all' %}
+                            {% if current_kind_id == '' and letter == 'all'%}
+                                <a class="nav-link {% if current_letter == '' %}active{% endif %}" href="{% url 'brands_list' %}">{{ letter|upper }}</a>
+                            {% elif current_kind_id == '' %}
+                                <a class="nav-link {% if letter == current_letter %}active{% endif %}" href="{% url 'brands_list' %}?letter={{ letter }}">{{ letter|upper }}</a>
+                            {% elif letter == 'all'%}
                                 <a class="nav-link {% if current_letter == '' %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}">{{ letter|upper }}</a>
                             {% else %}
                                 <a class="nav-link {% if letter == current_letter %}active{% endif %}" href="{% url 'brands_list' %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ letter|upper }}</a>
@@ -43,8 +57,19 @@
                             <ul class="list-group">
                                 {% for brand in brand_list %}
                                     <li class="list-group-item">
-                                        <a href="{% url 'brand_detail' brand.id %}?kind={{ current_kind_id }}&letter={{ current_letter }}">{{ brand.name }}
-                                            ({{ brand.model_set.count }})</a></li>
+                                        {% if current_kind_id == '' and current_letter == '' %}
+                                            <a href="{% url 'brand_detail' brand.id %}">{{ brand.name }}
+                                                ({{ brand.model_set.count }})</a></li>
+                                        {% elif current_kind_id == '' %}
+                                            <a href="{% url 'brand_detail' brand.id %}?letter={{ current_letter }}">{{ brand.name }}
+                                                ({{ brand.model_set.count }})</a></li>
+                                        {% elif current_letter == '' %}
+                                            <a href="{% url 'brand_detail' brand.id %}?kind={{ current_kind_id }}">{{ brand.name }}
+                                                ({{ brand.model_set.count }})</a></li>
+                                        {% else %}
+                                            <a href="{% url 'brand_detail' brand.id %}?kind={{ current_kind_id }}&letter={{ current_letter }}">{{ brand.name }}
+                                                ({{ brand.model_set.count }})</a></li>
+                                        {% endif %}
                                 {% endfor %}
                             </ul>
                         {% else %}

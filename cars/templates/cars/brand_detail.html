@@ -16,8 +16,19 @@
                         <ul class="list-group">
                             {% for model in model_list %}
                                 <li class="list-group-item">
-                                    <a href="{% url 'model_detail' model.id %}?kind={{ current_kind_id }}&letter={{ letter }}">{{ model.name }}
-                                        ({{ model.car_set.count }})</a></li>
+                                    {% if current_letter == 'all' and current_kind_id == 'all' %}
+                                        <a href="{% url 'model_detail' model.id %}">{{ model.name }}
+                                            ({{ model.car_set.count }})</a></li>
+                                    {% elif current_letter == 'all' %}
+                                        <a href="{% url 'model_detail' model.id %}?letter={{ current_letter }}">{{ model.name }}
+                                            ({{ model.car_set.count }})</a></li>
+                                    {% elif current_kind_id == 'all' %}
+                                        <a href="{% url 'model_detail' model.id %}?kind={{ current_kind_id }}">{{ model.name }}
+                                            ({{ model.car_set.count }})</a></li>
+                                    {% else %}
+                                        <a href="{% url 'model_detail' model.id %}?kind={{ current_kind_id }}&letter={{ current_letter }}">{{ model.name }}
+                                            ({{ model.car_set.count }})</a></li>
+                                    {% endif %}
                             {% endfor %}
                         </ul>
                     </p>
